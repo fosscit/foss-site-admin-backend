@@ -3,7 +3,7 @@ import { getEventById, getEvents, CreateEvent, DeleteEvent, UpdateEvent } from "
 const router = express.Router();
 import { protect } from "../middleware/authMiddleware.js";
 
-router.route("/").get(protect, getEvents);
+router.route("/").get(getEvents);
 router
   .route("/:id")
   .get(getEventById)
