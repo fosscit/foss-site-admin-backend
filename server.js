@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-const cors = require('cors');
+import cors from 'cors';
 import connectDB from "./config/db.js";
 import colors from "colors";
 import path from "path";
