@@ -77,7 +77,7 @@ const registerUser = asyncHandler(async (req, res) => {
 //@access          Private
 const DeleteUser = asyncHandler(async (req, res) => {
 
-  const { ID } = req.body.id;
+  const ID = req.body.id;
   
   const user = await User.findById(ID);
 
