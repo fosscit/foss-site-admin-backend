@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+const cors = require('cors');
 import connectDB from "./config/db.js";
 import colors from "colors";
 import path from "path";
@@ -16,6 +17,8 @@ connectDB();
 const app = express(); // main thing
 
 app.use(express.json()); // to accept json data
+
+app.use(cors());
 
 app.use("/api/users", userRoutes);
 app.use("/api/visits", visitRoutes);

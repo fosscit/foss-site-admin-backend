@@ -78,7 +78,6 @@ const registerUser = asyncHandler(async (req, res) => {
 const DeleteUser = asyncHandler(async (req, res) => {
 
   const ID = req.body.id;
-  
   const user = await User.findById(ID);
 
   if (user) {
