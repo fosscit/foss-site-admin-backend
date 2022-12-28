@@ -13,6 +13,6 @@ router.route("/").get(getUsers);
 router.route("/").post(registerUser);
 router.post("/login", authUser);
 router.route("/profile").post(protect, updateUserProfile);
-router.route("/:id").delete(DeleteUser);
+router.route("/delete").post(DeleteUser);
 
 export default router;

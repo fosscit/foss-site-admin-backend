@@ -73,12 +73,12 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 //@description     Delete single User
-//@route           GET /api/users/:id
+//@route           POST /api/users/delete
 //@access          Private
 const DeleteUser = asyncHandler(async (req, res) => {
 
-  const { ID } = req.params.id;
-  console.log("Test-0" + req.params);
+  const { ID } = req.body.id;
+  
   const user = await User.findById(ID);
 
   if (user) {
