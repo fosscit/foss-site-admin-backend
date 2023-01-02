@@ -28,14 +28,14 @@ const getEventById = asyncHandler(async (req, res) => {
 //@access          Private
 const CreateEvent = asyncHandler(async (req, res) => {
   
-  const { title, content, category, date, time, venue, link, materials, speaker, pic } = req.body;
+  const { title, content, category, date, time, venue, link, materials, speaker, pic, startYear, endYear } = req.body;
 
   if (!title || !content || !category) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
     return;
   } else {
-    const year = date.slice(0, 4);
+    const year = startYear + " - " + endYear.slice(2);
     const event = new Event({ 
       user: req.user._id, 
       title, 
@@ -77,8 +77,8 @@ const DeleteEvent = asyncHandler(async (req, res) => {
 // @route   PUT /api/events/:id
 // @access  Private
 const UpdateEvent = asyncHandler(async (req, res) => {
-  const { title, content, category, eventDate, time, venue, link, materials, speaker, pic } = req.body;
-  
+  const { title, content, category, eventDate, time, venue, link, materials, speaker, pic, startYear, endYear } = req.body;
+  const Year = startYear + " - " + endYear.slice(2);
   const event = await Event.findById(req.params.id);
   
   if (event) {
@@ -86,7 +86,7 @@ const UpdateEvent = asyncHandler(async (req, res) => {
     event.content = content;
     event.category = category;
     event.eventDate = eventDate;
-    event.eventYear = eventDate.slice(0, 4);
+    event.eventYear = Year;
     event.time = time;
     event.venue = venue;
     event.link = link;

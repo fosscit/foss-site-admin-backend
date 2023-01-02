@@ -12,7 +12,7 @@ const registerVisitor = asyncHandler(async (req, res) => {
 
   if (visitorExists) {
    
-    const visitor = await Visit.updateOne({email: email}, {visitCount: visitorExists.visitCount + 1});
+    const visitor = await Visit.updateOne({email: email}, {name: name, visitCount: visitorExists.visitCount + 1});
     
     if(visitor) {
         DD.create(new Date());
@@ -34,7 +34,7 @@ const registerVisitor = asyncHandler(async (req, res) => {
       });    
       if (user) {
         res.status(201).json({
-            visitCount: user.visitCount,
+          visitCount: user.visitCount,
           _id: user._id,
           name: user.name,
           email: user.email,
