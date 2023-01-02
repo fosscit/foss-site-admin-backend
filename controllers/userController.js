@@ -66,6 +66,7 @@ const registerUser = asyncHandler(async (req, res) => {
       pic: user.pic,
       year: user.year,
       linkedin: user.linkedin,
+      period: user.period,
       token: generateToken(user._id),
     });
   } else {
@@ -125,6 +126,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       department: updatedUser.department,
       year: updatedUser.year,
       linkedin: updatedUser.linkedin,
+      period: updatedUser.period,
       token: generateToken(updatedUser._id),
     });
   } else {
