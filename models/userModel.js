@@ -15,41 +15,7 @@ const userSchema = mongoose.Schema(
     password: {
       type: String,
       required: true,
-    },
-    isAdmin: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    position: {
-      type: String,
-      required: true,
-    },
-    department: {
-      type: String,
-      required: true,
-    },
-    pic: {
-      type: String,
-      required: true,
-      default:
-        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
-    },
-    year: {
-      type: String,
-      required: true,
-    },
-    linkedin: {
-      type: String,
-      required: true,
-    },
-    period: {
-      type: String,
-      required: true,
     }
-  },
-  {
-    timestamps: true,
   }
 );
 

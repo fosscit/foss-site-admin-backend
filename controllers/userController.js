@@ -15,13 +15,6 @@ const authUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
-      position: user.position,
-      department: user.department,
-      pic: user.pic,
-      year: user.year,
-      linkedin: user.linkedin,
-      period: user.period,
       token: generateToken(user._id),
     });
   } else {
@@ -34,7 +27,7 @@ const authUser = asyncHandler(async (req, res) => {
 //@route           POST /api/users/
 //@access          Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, position, department, pic, year, linkedin, startYear, endYear } = req.body;
+  const { name, email, password } = req.body;
   
   const userExists = await User.findOne({ email });
 
@@ -46,13 +39,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     name,
     email,
-    password,
-    position,
-    department,
-    pic,
-    year,
-    linkedin,
-    period: startYear + " - " + endYear.slice(2)
+    password
   });
 
   if (user) {
@@ -60,14 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      isAdmin: user.isAdmin,
-      position: user.position,
-      department: user.department,
-      pic: user.pic,
-      year: user.year,
-      linkedin: user.linkedin,
-      period: user.period,
-      token: generateToken(user._id),
+      token: generateToken(user._id)
     });
   } else {
     res.status(400);
@@ -97,19 +77,9 @@ const DeleteUser = asyncHandler(async (req, res) => {
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-  let getPeriod = null;
-  if(req.body.startYear && req.body.endYear) {
-    getPeriod = req.body.startYear + " - " + req.body.endYear.slice(2);
-  }
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-    user.position = req.body.position || user.position;
-    user.department = req.body.department || user.department;
-    user.year = req.body.year || user.year;
-    user.linkedin = req.body.linkedin || user.linkedin;
-    user.pic = req.body.pic || user.pic;
-    user.period = getPeriod || user.period;
     if (req.body.password) {
       user.password = req.body.password;
     }
@@ -120,14 +90,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      pic: updatedUser.pic,
-      isAdmin: req.body.isAdmin,
-      position: updatedUser.position,
-      department: updatedUser.department,
-      year: updatedUser.year,
-      linkedin: updatedUser.linkedin,
-      period: updatedUser.period,
-      token: generateToken(updatedUser._id),
+      token: generateToken(updatedUser._id)
     });
   } else {
     res.status(404);

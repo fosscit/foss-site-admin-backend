@@ -23,6 +23,36 @@ const getEventById = asyncHandler(async (req, res) => {
   
 });
 
+//@description     Fetch events by year
+//@route           GET /api/events/year/:year
+//@access          Public
+const getEventByYear = asyncHandler(async (req, res) => { 
+  const year = req.params.year.replace('-', ' - ');
+  const event = await Event.find({ eventYear: year });
+
+  if(!event) {
+    res.status(404).json({ message: "Note not found" });
+  } else {
+    res.json(event);
+  }
+  
+});
+
+//@description     Fetch all the event Years
+//@route           GET /api/events/years/getyears
+//@access          Public
+const getEventYears = asyncHandler(async (req, res) => { 
+  const years = await Event.find({}, 'eventYear');
+  const yearList = years.map(year => year.eventYear);
+
+  if(!years) {
+    res.status(404).json({ message: "No data found" });
+  } else {
+    res.json({ years: yearList });
+  }
+  
+});
+
 //@description     Create single Note
 //@route           GET /api/events/create
 //@access          Private
@@ -102,4 +132,4 @@ const UpdateEvent = asyncHandler(async (req, res) => {
   }
 });
 
-export { getEventById, getEvents, CreateEvent, DeleteEvent, UpdateEvent };
+export { getEventById, getEvents, getEventByYear, getEventYears, CreateEvent, DeleteEvent, UpdateEvent };
