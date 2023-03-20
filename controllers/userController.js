@@ -23,55 +23,6 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-//@description     Register new user
-//@route           POST /api/users/
-//@access          Public
-const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
-  
-  const userExists = await User.findOne({ email });
-
-  if (userExists) {
-    res.status(404);
-    throw new Error("User already exists");
-  }
-
-  const user = await User.create({
-    name,
-    email,
-    password
-  });
-
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id)
-    });
-  } else {
-    res.status(400);
-    throw new Error("User not found");
-  }
-});
-
-//@description     Delete single User
-//@route           POST /api/users/delete
-//@access          Private
-const DeleteUser = asyncHandler(async (req, res) => {
-
-  const ID = req.body.id;
-  const user = await User.findById(ID);
-
-  if (user) {
-    await user.remove();
-    res.json({ message: "User Removed" });
-  } else {
-    res.status(404);
-    throw new Error("User not Found");
-  }
-});
-
 // @desc    GET user profile
 // @route   GET /api/users/profile
 // @access  Private
@@ -98,12 +49,4 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get logged in user notes
-// @route   GET /api/users
-// @access  Private
-const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find().select({password: 0});
-  res.json(users);
-});
-
-export { authUser, updateUserProfile, registerUser, DeleteUser, getUsers };
+export { authUser, updateUserProfile };

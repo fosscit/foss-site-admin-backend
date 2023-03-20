@@ -3,7 +3,7 @@ import { addMessage, getMessages, deleteMessage } from "../controllers/messageCo
 const router = express.Router();
 import { protect } from "../middleware/authMiddleware.js";
 
-router.route("/").get(getMessages);
+router.route("/").get(protect, getMessages);
 router.route("/").post(addMessage);
 router.route("/:id").delete(protect, deleteMessage);
 

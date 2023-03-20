@@ -107,7 +107,7 @@ const getMembers = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get member details based on year
-// @route   GET /year/:year
+// @route   GET api/members/year/:year
 // @access  Public
 const getMemberByYear = asyncHandler(async (req, res) => {    
   const year = req.params.year.replace('-', ' - ');
@@ -121,17 +121,27 @@ const getMemberByYear = asyncHandler(async (req, res) => {
   
 });
 
-//@description     Fetch all the event Years
-//@route           GET /api/events/years/getyears
+//@description     Fetch all the Board Member Years
+//@route           GET /api/members/years/
 //@access          Public
 const getMemberYears = asyncHandler(async (req, res) => { 
     const years = await Member.find({}, 'period');
-    const yearList = years.map(year => year.eventYear);
+    const yearList = years.map(year => year.eventYear).sort();
+
+    const newArray = yearList.reduce((acc, curr) => {
+      const existingYear = acc.find((elem) => elem.year == curr);
+      if (existingYear) {
+        existingYear.count += 1;
+      } else {
+        acc.push({id: (acc.length + 1).toString(), year: curr, count: 1});
+      }
+      return acc;
+    }, []);
   
     if(!years) {
       res.status(404).json({ message: "No data found" });
     } else {
-      res.json({ years: yearList });
+      res.json({ years: newArray });
     }
     
   });

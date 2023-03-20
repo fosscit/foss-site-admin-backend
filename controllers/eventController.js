@@ -43,12 +43,22 @@ const getEventByYear = asyncHandler(async (req, res) => {
 //@access          Public
 const getEventYears = asyncHandler(async (req, res) => { 
   const years = await Event.find({}, 'eventYear');
-  const yearList = years.map(year => year.eventYear);
+  const yearList = years.map(year => year.eventYear).sort();
+
+  const newArray = yearList.reduce((acc, curr) => {
+    const existingYear = acc.find((elem) => elem.year == curr);
+    if (existingYear) {
+      existingYear.count += 1;
+    } else {
+      acc.push({id: (acc.length + 1).toString(), year: curr, count: 1});
+    }
+    return acc;
+  }, []);
 
   if(!years) {
     res.status(404).json({ message: "No data found" });
   } else {
-    res.json({ years: yearList });
+    res.json({ years: newArray });
   }
   
 });
