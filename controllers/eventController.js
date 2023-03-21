@@ -58,7 +58,7 @@ const getEventYears = asyncHandler(async (req, res) => {
   if(!years) {
     res.status(404).json({ message: "No data found" });
   } else {
-    res.json({ years: newArray });
+    res.json(newArray);
   }
   
 });
