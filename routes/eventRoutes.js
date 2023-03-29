@@ -9,7 +9,7 @@ router
   .get(getEventById)
   .delete(protect, DeleteEvent)
   .put(protect, UpdateEvent);
-router.route("event/create").post(protect, CreateEvent);
+router.route("/event/create").post(protect, CreateEvent);
 router.route("/year/:year").get(getEventByYear);
 router.route("/years").get(getEventYears);
 
