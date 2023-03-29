@@ -7,7 +7,6 @@ import path from "path";
 import userRoutes from "./routes/userRoutes.js";
 import visitRoutes from "./routes/visitRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
-import announceRoutes from "./routes/announceRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import memberRoutes from "./routes/memberRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
@@ -24,7 +23,6 @@ app.use(cors());
 
 app.use("/api/users", userRoutes);
 app.use("/api/visits", visitRoutes);
-app.use("/api/announcements", announceRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/members", memberRoutes);
