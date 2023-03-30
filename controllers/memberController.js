@@ -11,7 +11,7 @@ const addMember = asyncHandler(async (req, res) => {
 
   if (memberExists) {
     res.status(404);
-    throw new Error("Member has alredy been added!!");
+    throw new Error("Member has already been added!!");
   }
 
   const member = await Member.create({
@@ -106,6 +106,20 @@ const getMembers = asyncHandler(async (req, res) => {
   res.json(members);
 });
 
+//@description     Fetch single Member
+//@route           GET /api/members/:id
+//@access          Public
+const getMemberById = asyncHandler(async (req, res) => {
+  const member = await Member.findById(req.params.id);
+
+  if(!member) {
+    res.status(404).json({ message: "Member doesn't exist" });
+  } else {
+    res.json(member);
+  }
+  
+});
+
 // @desc    Get member details based on year
 // @route   GET api/members/year/:year
 // @access  Public
@@ -144,6 +158,7 @@ const getMemberYears = asyncHandler(async (req, res) => {
       res.json(newArray);
     }
     
-  });
+});
 
-export { getMemberYears, getMemberByYear, updateMemberProfile, addMember, DeleteMember, getMembers };
+
+export { getMemberById, getMemberYears, getMemberByYear, updateMemberProfile, addMember, DeleteMember, getMembers };

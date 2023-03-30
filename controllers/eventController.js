@@ -39,7 +39,7 @@ const getEventByYear = asyncHandler(async (req, res) => {
 });
 
 //@description     Fetch all the event Years
-//@route           GET /api/events/years/getyears
+//@route           GET /api/events/years/years
 //@access          Public
 const getEventYears = asyncHandler(async (req, res) => { 
   const years = await Event.find({}, 'eventYear');
