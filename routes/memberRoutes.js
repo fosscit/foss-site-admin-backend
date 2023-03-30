@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route("/").get(getMembers);
 router.route("/").post(protect, addMember);
-router.route("/profile").post(protect, updateMemberProfile);
+router.route("/profile").put(protect, updateMemberProfile);
 router.route("/:id").get(getMemberById);
 router.route("/:id").delete(protect, DeleteMember);
 router.route("/year/:year").get(getMemberByYear);
