@@ -16,4 +16,4 @@ const visitSchema = mongoose.Schema(
 
 const Visit = mongoose.model("Visits", visitSchema);
 
-export { Visit, DD };
+export { Visit };
