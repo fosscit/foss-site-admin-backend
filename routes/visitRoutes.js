@@ -1,8 +1,10 @@
 import express from "express";
-import { registerVisitor } from "../controllers/visitController.js";
-import { protect } from "../middleware/authMiddleware.js";
+import { registerVisitor, getVisits } from "../controllers/visitController.js";
 const router = express.Router();
 
-router.route("/").post(registerVisitor);
+router
+.route("/")
+.get(getVisits)
+.post(registerVisitor);
 
 export default router;

@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-const dateObj = new Date();
-
 const visitSchema = mongoose.Schema(
   {
     email: {
@@ -9,24 +7,12 @@ const visitSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    visitCount: {
-        type: Number,
-        default: 1,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-const dateSchema = mongoose.Schema({
-    currentDate: {
+    date: {
         type: Date,
         default: new Date(),
-    }
-});
-
-const DD = mongoose.model("Dates", dateSchema);
+    },
+  }
+);
 
 const Visit = mongoose.model("Visits", visitSchema);
 

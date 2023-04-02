@@ -4,11 +4,15 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").get(getMembers);
-router.route("/").post(protect, addMember);
+router
+.route("/")
+.get(getMembers)
+.post(protect, addMember);
+router
+.route("/:id")
+.get(getMemberById)
+.delete(protect, DeleteMember);
 router.route("/profile").put(protect, updateMemberProfile);
-router.route("/:id").get(getMemberById);
-router.route("/:id").delete(protect, DeleteMember);
 router.route("/year/:year").get(getMemberByYear);
 router.route("/years").get(getMemberYears);
 
