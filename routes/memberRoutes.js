@@ -4,6 +4,7 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+router.route("/years").get(getMemberYears);
 router
 .route("/")
 .get(getMembers)
@@ -14,6 +15,5 @@ router
 .delete(protect, DeleteMember);
 router.route("/profile").put(protect, updateMemberProfile);
 router.route("/year/:year").get(getMemberByYear);
-router.route("/years").get(getMemberYears);
 
 export default router;

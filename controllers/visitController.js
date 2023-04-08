@@ -17,8 +17,10 @@ const registerVisitor = asyncHandler(async (req, res) => {
 //@route           GET /api/visits/
 //@access          Public
 const getVisits = asyncHandler(async (req, res) => {
+  const twelveMonthsAgo = new Date();
+  twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
   try {
-      const visits = await Visit.find();
+      const visits = await Visit.find({ date: { $gte: twelveMonthsAgo } });
       res.json(visits);
   } catch (error) {
       res.status(500).json({ message: "Server error: " + error.message });
