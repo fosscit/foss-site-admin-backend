@@ -6,6 +6,7 @@ import asyncHandler from "express-async-handler";
 // @access  Private
 const getEvents = asyncHandler(async (req, res) => {
   const events = await Event.find();
+  events.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
   res.json(events);
 });
 
@@ -16,7 +17,7 @@ const getEventById = asyncHandler(async (req, res) => {
   const event = await Event.findById(req.params.id);
 
   if(!event) {
-    res.status(404).json({ message: "Note not found" });
+    res.status(404).json({ message: "Event not found" });
   } else {
     res.json(event);
   }
@@ -28,12 +29,14 @@ const getEventById = asyncHandler(async (req, res) => {
 //@access          Public
 const getEventByYear = asyncHandler(async (req, res) => { 
   const year = req.params.year.replace('-', ' - ');
-  const event = await Event.find({ eventYear: year });
+  const events = await Event.find({ eventYear: year });
 
-  if(!event) {
-    res.status(404).json({ message: "Note not found" });
+  events.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
+
+  if(!events) {
+    res.status(404).json({ message: "Event not found" });
   } else {
-    res.json(event);
+    res.json(events);
   }
   
 });
