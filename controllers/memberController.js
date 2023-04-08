@@ -140,7 +140,7 @@ const getMemberByYear = asyncHandler(async (req, res) => {
 //@access          Public
 const getMemberYears = asyncHandler(async (req, res) => { 
     const years = await Member.find({}, 'period');
-    const yearList = years.map(year => year.eventYear).sort();
+    const yearList = years.map(year => year.period).sort();
 
     const newArray = yearList.reduce((acc, curr) => {
       const existingYear = acc.find((elem) => elem.year == curr);
