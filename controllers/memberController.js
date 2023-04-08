@@ -6,6 +6,7 @@ import Member from "../models/memberModel.js";
 //@access          Public
 const addMember = asyncHandler(async (req, res) => {
   const { name, email, position, department, pic, year, linkedin, startYear, endYear } = req.body;
+  console.log(res.body);
   
   const memberExists = await Member.findOne({ email });
 

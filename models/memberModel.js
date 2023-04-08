@@ -16,7 +16,6 @@ const memberSchema = mongoose.Schema(
     },
     department: {
       type: String,
-      required: true,
     },
     pic: {
       type: String,
@@ -26,11 +25,9 @@ const memberSchema = mongoose.Schema(
     },
     year: {
       type: String,
-      required: true,
     },
     linkedin: {
       type: String,
-      required: true,
     },
     period: {
       type: String,
