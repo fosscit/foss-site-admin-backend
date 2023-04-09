@@ -115,7 +115,13 @@ const formatMembers = (data) => {
         obj[element.position].push(element);
       }
     }
-    return obj;
+    const formattedData = Object.entries(obj)
+    .filter(([key, members]) => members.length > 0)
+    .map(([key, members]) => ({
+      id: key,
+      members: members
+    }));
+    return formattedData;
 };
 
 // @desc    Get member details
