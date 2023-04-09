@@ -99,12 +99,31 @@ const updateMemberProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const formatMembers = (data) => {
+    const obj = {
+      "Secretary": [],
+      "Joint Secretary": [],
+      "Treasurer": [],
+      "Event Manager": [],
+      "Editing Team": []
+    };
+    for(let element of data) {
+      if(obj.hasOwnProperty(element.position)) {
+        obj[element.position].push(element);
+      } else {
+        obj[element.position] = [];
+        obj[element.position].push(element);
+      }
+    }
+    return obj;
+};
+
 // @desc    Get member details
 // @route   GET /api/members
 // @access  Private
 const getMembers = asyncHandler(async (req, res) => {
   const members = await Member.find();
-  res.json(members);
+  res.json(formatMembers(members));
 });
 
 //@description     Fetch single Member
@@ -131,7 +150,7 @@ const getMemberByYear = asyncHandler(async (req, res) => {
   if(!member) {
     res.status(404).json({ message: "Member not found" });
   } else {
-    res.json(member);
+    res.json(formatMembers(member));
   }
   
 });
