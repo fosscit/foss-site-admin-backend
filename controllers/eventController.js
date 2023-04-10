@@ -41,7 +41,7 @@ const getEventByYear = asyncHandler(async (req, res) => {
   
 });
 
-//@description     Fetch all the event Years
+//@description     Fetch the latest event
 //@route           GET /api/events/years/years
 //@access          Public
 const getEventYears = asyncHandler(async (req, res) => { 
@@ -62,6 +62,21 @@ const getEventYears = asyncHandler(async (req, res) => {
     res.status(404).json({ message: "No data found" });
   } else {
     res.json(newArray);
+  }
+  
+});
+
+//@description     Fetch all the event Years
+//@route           GET /api/events/event/current
+//@access          Public
+const getCurrentEvent = asyncHandler(async (req, res) => { 
+  const event = await Event.find({});
+  event.sort((a, b) => new Date(a) - new Date(b));
+
+  if(!event) {
+    res.status(404).json({ message: "Event not found" });
+  } else {
+    res.json(event[event.length - 1]);
   }
   
 });
@@ -145,4 +160,4 @@ const UpdateEvent = asyncHandler(async (req, res) => {
   }
 });
 
-export { getEventById, getEvents, getEventByYear, getEventYears, CreateEvent, DeleteEvent, UpdateEvent };
+export { getEventById, getEvents, getEventByYear, getEventYears, getCurrentEvent, CreateEvent, DeleteEvent, UpdateEvent };

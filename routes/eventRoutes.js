@@ -1,9 +1,10 @@
 import express from "express";
-import { getEventById, getEvents, getEventByYear, getEventYears, CreateEvent, DeleteEvent, UpdateEvent } from "../controllers/eventController.js";
+import { getEventById, getEvents, getEventByYear, getEventYears, CreateEvent, DeleteEvent, UpdateEvent, getCurrentEvent } from "../controllers/eventController.js";
 const router = express.Router();
 import { protect } from "../middleware/authMiddleware.js";
 
 router.route("/event").get(getEvents);
+router.route("/event/current").get(getCurrentEvent);
 router
   .route("/event/:id")
   .get(getEventById)

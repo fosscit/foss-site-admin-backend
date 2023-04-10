@@ -1,31 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Message from "../models/messageModel.js";
-import nodemailer from "nodemailer";
-
-const nodeMailer = (name, email, subject, message) => {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'mailmerchant1018@gmail.com',
-      pass: 'hfdzvpcuttllfohn'
-    }
-  });
-  
-  const mailOptions = {
-    from: email,
-    to: 'vignaraj03@gmail.com',
-    subject: subject,
-    text: `${name}\nMail: ${email}\n${message}`
-  };
-  
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-}
+import axios from "axios";
 
 // @desc    Get saves messages from users
 // @route   GET /api/messages/
@@ -46,21 +21,28 @@ const getMessages = asyncHandler(async (req, res) => {
 //@route           POST /api/messages/
 //@access          Public
 const addMessage = asyncHandler(async (req, res) => {
-  const { name, email, subject, message } = req.body;
+  const { name, mail, subject, message } = req.body;
 
-  if (!name || !email || !message) {
+  if (!name || !mail || !message) {
     res.status(400);
     throw new Error("Please Fill all the fields");
   } else {
     const newMessage = new Message({ 
         name,
-        email,
+        email: mail,
         subject,
         message
     });
 
     newMessage.save();
-    nodeMailer(name, email, subject, message);
+    
+    axios.post(process.env.MAIL_MERCHANT_URI, req.body)
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 
     res.status(201).send("Message saved Successfully!!!");
   }
