@@ -2,11 +2,28 @@ import Event from "../models/eventModel.js";
 import asyncHandler from "express-async-handler";
 
 // @desc    Get logged in user notes
-// @route   GET /api/events
-// @access  Private
+// @route   GET /api/events/event
+// @access  Public
 const getEvents = asyncHandler(async (req, res) => {
-  const events = await Event.find();
-  events.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
+  // const events = await Event.find();
+  // events.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
+  const events = await Event.aggregate([
+    {
+      $addFields: {
+        eventDateISO: {
+          $dateFromString: {
+            dateString: '$eventDate',
+          },
+        },
+      },
+    },
+    {
+      $sort: {
+        eventDateISO: 1,
+      },
+    },
+  ]);
+  
   res.json(events);
 });
 
@@ -71,7 +88,7 @@ const getEventYears = asyncHandler(async (req, res) => {
 //@access          Public
 const getCurrentEvent = asyncHandler(async (req, res) => { 
   const event = await Event.find({});
-  event.sort((a, b) => new Date(a) - new Date(b));
+  event.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
 
   if(!event) {
     res.status(404).json({ message: "Event not found" });

@@ -9,6 +9,7 @@ import visitRoutes from "./routes/visitRoutes.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import memberRoutes from "./routes/memberRoutes.js";
+import galleryRoutes from './routes/galleryRoutes.js';
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.use("/api/visits", visitRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/members", memberRoutes);
+app.use("/api/gallery", galleryRoutes);
 
 // --------------------------deployment------------------------------
 const __dirname = path.resolve();
