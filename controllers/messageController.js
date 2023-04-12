@@ -49,7 +49,7 @@ const addMessage = asyncHandler(async (req, res) => {
 });
 
 //@description     Delete single Message
-//@route           POST /api/messages/delete
+//@route           DELETE /api/messages/:id
 //@access          Private
 const deleteMessage = asyncHandler(async (req, res) => {
 

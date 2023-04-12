@@ -10,7 +10,7 @@ const getGallery = asyncHandler(async (req, res) => {
 });
 
 //@description     Create single Picture
-//@route           POST /api/gallery/
+//@route           POST /api/gallery
 //@access          Private
 const CreatePicture = asyncHandler(async (req, res) => {
   
@@ -31,4 +31,21 @@ const CreatePicture = asyncHandler(async (req, res) => {
     }
   });
 
-export { getGallery, CreatePicture };
+//@description     Delete single Picture
+//@route           DELETE /api/gallery/:id
+//@access          Private
+const deletePicture = asyncHandler(async (req, res) => {
+
+  const ID = req.params.id;
+  const picture = await Gallery.findById(ID);
+
+  if (picture) {
+    await picture.remove();
+    res.json({ message: "Picture Removed" });
+  } else {
+    res.status(404);
+    throw new Error("Picture not Found");
+  }
+});
+
+export { getGallery, CreatePicture, deletePicture };
