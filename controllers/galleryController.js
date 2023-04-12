@@ -16,12 +16,12 @@ const CreatePicture = asyncHandler(async (req, res) => {
   
     const { pic } = req.body;
   
-    if (!title) {
+    if (!pic) {
       res.status(400);
       throw new Error("Picture not Recieved");
       return;
     } else {
-      const picture = new Event({ 
+      const picture = new Gallery({ 
         pic
       });
   

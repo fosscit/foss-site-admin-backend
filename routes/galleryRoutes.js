@@ -7,7 +7,7 @@ const router = express.Router();
 router
 .route("/")
 .get(getGallery)
-.post(protect, CreatePicture);
+.post(CreatePicture);
 router.route("/:id").delete(protect, deletePicture);
 
 export default router;
