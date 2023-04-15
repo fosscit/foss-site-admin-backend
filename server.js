@@ -10,6 +10,8 @@ import eventRoutes from "./routes/eventRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import memberRoutes from "./routes/memberRoutes.js";
 import galleryRoutes from './routes/galleryRoutes.js';
+import memberGalleryRoutes from './routes/memberGalleryRoutes.js';
+import achievements from './Achievements/Achievements.js';
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 
@@ -29,6 +31,8 @@ app.use("/api/events", eventRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/members", memberRoutes);
 app.use("/api/gallery", galleryRoutes);
+app.use("/api/membersgallery", memberGalleryRoutes);
+app.use("/api/achievements", achievements);
 
 // --------------------------deployment------------------------------
 const __dirname = path.resolve();
