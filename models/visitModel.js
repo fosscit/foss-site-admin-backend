@@ -5,7 +5,6 @@ const visitSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
     },
     date: {
         type: Date,

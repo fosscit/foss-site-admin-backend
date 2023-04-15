@@ -14,36 +14,28 @@ const youtube = google.youtube({
   auth: apiKey,
 });
 
-const getYTVideoCount = async () => {
+const getYTViewsCount = async () => {
     try {
       const channelResponse = await youtube.channels.list({
         id: channelId,
-        part: 'contentDetails',
+        part: 'statistics',
       });
   
-      const uploadsPlaylistId = channelResponse.data.items[0].contentDetails.relatedPlaylists.uploads;
-  
-      const playlistItemsResponse = await youtube.playlistItems.list({
-        playlistId: uploadsPlaylistId,
-        part: 'snippet',
-        maxResults: 1,
-      });
-  
-      const totalVideos = playlistItemsResponse.data.pageInfo.totalResults;
-      return totalVideos;
+      const totalViews = channelResponse.data.items[0].statistics.viewCount;
+      return totalViews;
     } catch (err) {
       console.error('Error getting video count:', err);
     }
-  };
+  };  
   
 const router = express.Router();
 
 const getData = asyncHandler(async (req, res) => {
     const events_count = await Event.countDocuments();
-    const yt_count = await getYTVideoCount();
-    if(events_count && yt_count) {
+    const yt_views = await getYTViewsCount();
+    if(events_count && yt_views) {
         res.json({
-            events_count, yt_count
+            events_count, yt_views
         })
     } else {        
         res.status(404).json({ message: "datas not found" });
