@@ -6,13 +6,14 @@ import Member from "../models/memberModel.js";
 //@access          Public
 const addMember = asyncHandler(async (req, res) => {
   const { name, email, position, department, pic, year, linkedin, startYear, endYear } = req.body;
-  console.log(res.body);
   
-  const memberExists = await Member.findOne({ email });
+  if(email) {
+    const memberExists = await Member.findOne({ email });
 
-  if (memberExists) {
-    res.status(404);
-    throw new Error("Member has already been added!!");
+    if (memberExists) {
+      res.status(404);
+      throw new Error("Member has already been added!!");
+    }
   }
 
   const member = await Member.create({

@@ -12,6 +12,7 @@ import memberRoutes from "./routes/memberRoutes.js";
 import galleryRoutes from './routes/galleryRoutes.js';
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
+
 dotenv.config();
 
 connectDB();
