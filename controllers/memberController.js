@@ -105,8 +105,17 @@ const formatMembers = (data) => {
       "Secretary": [],
       "Joint Secretary": [],
       "Treasurer": [],
+      "Head of External Affairs": [],
+      "Public Relations Team": [],
+      "Social Media Head": [],
+      "Social Media Content Team": [],
+      "Head of Editing Team": [],
+      "Editing Team": [],
+      "Content Writing": [],
+      "Innovation Head": [],
       "Event Manager": [],
-      "Editing Team": []
+      "Head of Technical Team": [],
+      "Technical Team": []
     };
     for(let element of data) {
       if(obj.hasOwnProperty(element.position)) {
