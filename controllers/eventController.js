@@ -5,25 +5,7 @@ import asyncHandler from "express-async-handler";
 // @route   GET /api/events/event
 // @access  Public
 const getEvents = asyncHandler(async (req, res) => {
-  // const events = await Event.find();
-  // events.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
-  const events = await Event.aggregate([
-    {
-      $addFields: {
-        eventDateISO: {
-          $dateFromString: {
-            dateString: '$eventDate',
-          },
-        },
-      },
-    },
-    {
-      $sort: {
-        eventDateISO: 1,
-      },
-    },
-  ]);
-  
+  const events = await Event.find().sort({ eventDate: 1 });  
   res.json(events);
 });
 
@@ -32,7 +14,7 @@ const getEvents = asyncHandler(async (req, res) => {
 //@access          Public
 const getEventById = asyncHandler(async (req, res) => {
   const event = await Event.findById(req.params.id);
-
+  
   if(!event) {
     res.status(404).json({ message: "Event not found" });
   } else {
@@ -46,9 +28,8 @@ const getEventById = asyncHandler(async (req, res) => {
 //@access          Public
 const getEventByYear = asyncHandler(async (req, res) => { 
   const year = req.params.year.replace('-', ' - ');
-  const events = await Event.find({ eventYear: year });
-
-  events.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
+  
+  const events = await Event.find({ eventYear: year }).sort({ eventDate: 1 });
 
   if(!events) {
     res.status(404).json({ message: "Event not found" });
@@ -59,23 +40,17 @@ const getEventByYear = asyncHandler(async (req, res) => {
 });
 
 //@description     Fetch the latest event
-//@route           GET /api/events/years/years
+//@route           GET /api/events/years
 //@access          Public
 const getEventYears = asyncHandler(async (req, res) => { 
-  const years = await Event.find({}, 'eventYear');
-  const yearList = years.map(year => year.eventYear).sort();
+  const yearList = (await Event.find({}, 'eventYear')).map(year => year.eventYear).sort();
+  const uniqueYears = [...new Set(yearList)].sort();
+  const newArray = uniqueYears.map((year, index) => ({
+    id: String(index + 1),
+    year
+  }));
 
-  const newArray = yearList.reduce((acc, curr) => {
-    const existingYear = acc.find((elem) => elem.year == curr);
-    if (existingYear) {
-      existingYear.count += 1;
-    } else {
-      acc.push({id: (acc.length + 1).toString(), year: curr, count: 1});
-    }
-    return acc;
-  }, []);
-
-  if(!years) {
+  if(!yearList) {
     res.status(404).json({ message: "No data found" });
   } else {
     res.json(newArray);
@@ -87,13 +62,12 @@ const getEventYears = asyncHandler(async (req, res) => {
 //@route           GET /api/events/event/current
 //@access          Public
 const getCurrentEvent = asyncHandler(async (req, res) => { 
-  const event = await Event.find({});
-  event.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
+  const latestEvent = await Event.findOne({}).sort({ eventDate: -1 }).exec();
 
-  if(!event) {
+  if(!latestEvent) {
     res.status(404).json({ message: "Event not found" });
   } else {
-    res.json(event[event.length - 1]);
+    res.json(latestEvent);
   }
   
 });
@@ -113,7 +87,7 @@ const CreateEvent = asyncHandler(async (req, res) => {
     const year = startYear + " - " + endYear.slice(2);
     const event = new Event({ 
       user: req.user._id, 
-      title, 
+      title,
       content, 
       category, 
       eventDate: date, 
